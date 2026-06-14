@@ -159,6 +159,21 @@ export default function PuzzleBoard({
   const [solved, setSolved] = useState(false);
   const [moves, setMoves] = useState(0);
   const [showWrongMove, setShowWrongMove] = useState(false);
+  const [showVictoryModal, setShowVictoryModal] = useState(false);
+
+  const victoryMessages = [
+  "CHECKMATE CONFIRMED",
+  "ARCHIVE RESTORED",
+  "TARGET ELIMINATED",
+  "KING CAPTURED",
+  "TACTICAL SUCCESS",
+  "MISSION COMPLETE"
+];
+
+const randomMessage =
+  victoryMessages[
+    Math.floor(Math.random() * victoryMessages.length)
+  ];
 
   useEffect(() => {
   const newGame = new Chess(puzzle.fen);
@@ -166,9 +181,15 @@ export default function PuzzleBoard({
   setGame(newGame);
   setFen(puzzle.fen);
   setSolved(false);
+  setShowWrongMove(false);
+  setShowVictoryModal(false);
   setMoves(0); // <-- here
 }, [puzzle]);
+
+
   <p>Moves: {moves}</p>
+
+  
 
 
 
@@ -191,12 +212,10 @@ export default function PuzzleBoard({
     setFen(game.fen());
     setGame(new Chess(game.fen()));
 
-    if (puzzle.solution.includes(moveKey)) {
+ 
+if (puzzle.solution.includes(moveKey)) {
   setSolved(true);
-
-  setTimeout(() => {
-    onSolved();
-  }, 1000);
+  setShowVictoryModal(true);
 } else {
   setShowWrongMove(true);
 }
@@ -206,10 +225,19 @@ return true;
   }
 
   return (
-    <div style={{ width: 500, margin: "40px auto" }}>
-      <h3 style={{ textAlign: "center" }}>
+     <div className="puzzle-container">
+
+    <div className="puzzle-header">
+
+      <h2>
         {puzzle.title}
-      </h3>
+      </h2>
+
+     <div className="archive-number">
+  ARCHIVE #{puzzle.id}
+</div>
+
+    </div>
 
      <Chessboard
   options={{
@@ -217,14 +245,15 @@ return true;
     onPieceDrop,
     pieces: retroPieces,
     lightSquareStyle: {
-      backgroundColor: "#bff0b5",
-    },
-    darkSquareStyle: {
-      backgroundColor: "#636fb5",
-    },
+  backgroundColor: "#e7dfcf",
+},
+darkSquareStyle: {
+  backgroundColor: "#6a4433",
+},
   }}
 />
 {showWrongMove && (
+   <div className="retro-popup">
   <div
     style={{
       position: "fixed",
@@ -238,29 +267,58 @@ return true;
       zIndex: 999,
     }}
   >
-    <h2>WRONG MOVE!</h2>
+ 
 
-    <p>Try again, strategist.</p>
+  <h3>⚠ MOVE REJECTED</h3>
+
+  <p>
+    The archive does not contain that move.
+  </p>
+
+  <button
+    className="retro-btn"
+    onClick={() => {
+      setShowWrongMove(false);
+
+      const newGame = new Chess(puzzle.fen);
+
+      setGame(newGame);
+      setFen(puzzle.fen);
+    }}
+  >
+    RETRY
+  </button>
+
+</div>
+  </div>
+)}
+
+{showVictoryModal && (
+  <div className="victory-modal">
+
+    <h2>{randomMessage}</h2>
+
+    <p>
+      Archive #{puzzle.id} restored.
+    </p>
 
     <button
+      className="retro-btn"
       onClick={() => {
-        setShowWrongMove(false);
-
-        const newGame = new Chess(puzzle.fen);
-
-        setGame(newGame);
-        setFen(puzzle.fen);
+        setShowVictoryModal(false);
+        onSolved();
       }}
     >
-      Retry
+      ▶ NEXT ARCHIVE
     </button>
+
   </div>
 )}
 
       {solved && (
-        <p style={{ textAlign: "center", color: "lime" }}>
-          Solved!
-        </p>
+        <p className="success-message">
+  ✓ Checkmate delivered.
+</p>
       )}
 
       <div
@@ -271,13 +329,23 @@ return true;
     marginTop: "15px",
   }}
 >
-  <button onClick={onPrevious}>
-    ← Previous
+  <div className="navigation-buttons">
+
+  <button
+    className="retro-btn"
+    onClick={onPrevious}
+  >
+    ◀ PREVIOUS
   </button>
 
-  <button onClick={onNext}>
-    Next →
+  <button
+    className="retro-btn"
+    onClick={onNext}
+  >
+    NEXT ▶
   </button>
+
+</div>
 </div>
 
 

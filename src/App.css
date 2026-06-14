@@ -7,3 +7,295 @@ body {
   font-family: "Retro", monospace;
     cursor: url("./assets/cursor.png"), auto;
 }
+@font-face {
+  font-family: "Retro";
+  src: url("./assets/fonts/PIXY.ttf");
+}
+
+body {
+  margin: 0;
+  background: #1a1512;
+  font-family: "Retro", monospace;
+  cursor: url("./assets/cursor.png"), auto;
+}
+
+.terminal-screen {
+  min-height: 100vh;
+  background: #1a1512;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.terminal-container {
+  width: 850px;
+  max-width: 90%;
+  border: 3px solid #8d6c52;
+  background: #f3ecdc;
+  color: #4a2c1f;
+  padding: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #8d6c52;
+  padding-bottom: 15px;
+}
+
+.terminal-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.terminal-title {
+  font-size: 4rem;
+  margin-top: 20px;
+  text-shadow: 4px 4px 0px #d4c5ab;
+}
+
+.terminal-body {
+  text-align: center;
+}
+
+.king-radar {
+  font-size: 80px;
+  color: #d0a74b;
+  animation: pulse 2s infinite;
+}
+
+.start-button {
+  margin-top: 30px;
+  padding: 18px 30px;
+  border: 2px solid #6a4433;
+  background: transparent;
+  color: #6a4433;
+  font-family: inherit;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.start-button:hover {
+  background: #6a4433;
+  color: white;
+  transform: translateY(-3px);
+}
+
+.archive-number{
+  font-size: 22px;
+  color:#f4d9a8;
+
+  text-shadow:
+    0 0 5px #f4d9a8,
+    0 0 10px #f4d9a8,
+    0 0 20px #7481ca;
+
+  margin-top:10px;
+}
+
+.game-screen {
+  .game-screen {
+  min-height: 100vh;
+
+  background:
+  linear-gradient(
+    180deg,
+    #2c1c15 0%,
+    #241812 100%
+  );
+
+  padding: 30px;
+}
+}
+
+.status-bar {
+ .status-bar {
+  width: fit-content;
+  margin: 20px auto;
+
+  padding: 10px 18px;
+
+  border: 2px solid #d4b16a;
+
+  background: rgba(20,16,14,0.85);
+
+  color: #f4d9a8;
+
+  display: flex;
+  gap: 30px;
+
+  text-shadow: 1px 1px 0px black;
+}
+}
+
+.status-online {
+  animation: flicker 2s infinite;
+}
+
+.puzzle-container {
+  width: 700px;
+
+  margin: 20px auto;
+
+  background: #3a261d;
+
+  border: 2px solid #8d6c52;
+
+  padding: 25px;
+
+  color: #f4d9a8;
+
+  box-shadow:
+    0 0 25px rgba(0,0,0,.4);
+}
+
+.puzzle-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+    text-align: center;
+  margin-bottom: 20px;
+  padding: 12px;
+
+  background: rgba(20, 16, 14, 0.8);
+  border: 2px solid #d4b16a;
+
+  color: #f4d9a8;
+
+  text-shadow:
+    0 0 4px rgba(244,217,168,0.4),
+    2px 2px 0px #3b271d;
+}
+
+.puzzle-header h2 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.puzzle-header span {
+  display: block;
+  margin-top: 6px;
+  color: #d4b16a;
+  font-size: 12px;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.retro-btn {
+    padding:12px 20px;
+
+  background:#2d2530;
+
+  border:2px solid #f4d9a8;
+
+  color:#f4d9a8;
+
+  font-family:"Retro";
+
+  text-shadow:
+    0 0 4px #f4d9a8,
+    0 0 8px #f4d9a8;
+
+  transition:0.25s;
+}
+
+.retro-btn:hover{
+  background:#7481ca;
+
+  box-shadow:
+    0 0 10px #7481ca,
+    0 0 20px #7481ca,
+    0 0 30px #7481ca;
+
+  transform:translateY(-2px);
+}
+.retro-popup {
+   margin-top: 20px;
+
+  padding: 20px;
+
+  background: #4a2c1f;
+
+  border: 2px solid #d0a74b;
+
+  text-align: center;
+
+  color: #f4d9a8;
+
+  animation: popupAppear .2s ease;
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      rgba(0,0,0,.04) 3px
+    );
+  pointer-events: none;
+}
+
+.success-message {
+  text-align: center;
+
+  color: #d0a74b;
+
+  margin-top: 15px;
+
+  animation: flicker 1s infinite;
+}
+
+.scanline {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255,255,255,.15);
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  from {
+    top: -10px;
+  }
+
+  to {
+    top: 100%;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+@keyframes flicker {
+  50% {
+    opacity: .6;
+  }
+}
+@keyframes popupAppear {
+  from {
+    transform: scale(.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

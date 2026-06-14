@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PuzzleBoard from "./components/PuzzleBoard";
 import { puzzles } from "./data/puzzles";
 import "./App.css"
@@ -6,74 +6,148 @@ import "./App.css"
 function App() {
   const [currentPuzzle, setCurrentPuzzle] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
+  const [bootComplete, setBootComplete] = useState(false);
+const [bootText, setBootText] = useState("BOOTING CHESS TERMINAL...");
 
 
-  if (!gameStarted) {
+useEffect(() => {
+  const messages = [
+    "BOOTING CHESS TERMINAL...",
+    "LOADING BOARD RENDERER...",
+    "LOADING RETRO ASSETS...",
+    "LOADING PUZZLE DATABASE...",
+    "20 PUZZLES LOADED",
+    "READY."
+  ];
+
+  let index = 0;
+
+  const interval = setInterval(() => {
+    index++;
+
+    if (index < messages.length) {
+      setBootText(messages[index]);
+    } else {
+      setBootComplete(true);
+      clearInterval(interval);
+    }
+  }, 700);
+
+  return () => clearInterval(interval);
+}, []);
+
+
+if (!gameStarted) {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#1a1512",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          border: "4px solid #f4d9a8",
-          padding: "40px",
-          textAlign: "center",
-        }}
-      >
-        <h1 style={{textShadow:
-"4px 4px 0px #7481ca"}}>
-♔ RETRO CHESS PUZZLES ♚
-</h1>
+    <div className="terminal-screen">
 
-        <h2>Mate in 1 Challenge</h2>
+      <div className="scanlines"></div>
+      <div className="scanline"></div>
 
-        <p>20 puzzles await.</p>
+      <div className="terminal-container">
 
-        <button
-          onClick={() => setGameStarted(true)}
-        >
-          START GAME
-        </button>
+        <div className="terminal-header">
+          <span>PAWNED ARCHIVES</span>
+
+          <div className="terminal-stats">
+            <span>STATUS: ONLINE</span>
+            <span>PUZZLES: 20</span>
+          </div>
+        </div>
+
+        <div className="terminal-body">
+
+          <div className="king-radar">
+            ♔
+          </div>
+
+          <h1 className="terminal-title">
+            PAWNED
+          </h1>
+
+          <h2>
+            PUZZLE ARCHIVES
+          </h2>
+
+          <p>
+            MATE IN 1 CHALLENGE
+          </p>
+
+          <div className="boot-text">
+  {bootText}
+</div>
+
+          <button
+  disabled={!bootComplete}
+  className="start-button"
+  onClick={() => setGameStarted(true)}
+>
+  {bootComplete
+    ? "▶ ENTER ARCHIVE"
+    : "LOADING..."}
+</button>
+
+        </div>
       </div>
     </div>
   );
 }
 
-
   function nextPuzzle() {
-  setCurrentPuzzle(prev => {
-    if (prev >= puzzles.length - 1) {
-      return prev;
-    }
-
-    return prev + 1;
-  });
+ setCurrentPuzzle(prev => prev + 1);
 }
+
 if (currentPuzzle >= puzzles.length) {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#1a1512",
-        color: "#f4d9a8",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
-      <h1>🏆 All Puzzles Complete!</h1>
-      <p>You solved every puzzle.</p>
+    <div className="terminal-screen">
+
+      <div className="scanlines"></div>
+      <div className="scanline"></div>
+
+      <div className="terminal-container">
+
+        <div className="terminal-body">
+
+          <div className="king-radar">
+            ♕
+          </div>
+
+          <h1 className="terminal-title">
+            ARCHIVE RESTORED
+          </h1>
+
+          <p>
+            You have survived the archive.
+          </p>
+
+          <p>
+           The Pawned archives have been recovered.
+          </p>
+
+<p style={{
+  color: "#7ddf7d",
+  marginTop: "20px"
+}}>
+  STATUS: GRANDMASTER VERIFIED
+</p>
+
+          <button
+            className="start-button"
+            onClick={() => {
+              setCurrentPuzzle(0);
+              setGameStarted(false);
+            }}
+          >
+            ▶ RESTART ARCHIVE
+          </button>
+
+        </div>
+
+      </div>
+
     </div>
   );
 }
-
 function previousPuzzle() {
   setCurrentPuzzle(prev => {
     if (prev <= 0) {
@@ -84,36 +158,33 @@ function previousPuzzle() {
   });
 }
 
-  return (
-    
-   <>
-   
-  <div
-    style={{
-      minHeight: "100vh",
-      background: "#1a1512",
-      color: "#f4d9a8",
-      textAlign: "center",
-      paddingTop: "20px",
-    }}
-  >
-  <h1>Retro Chess Puzzles</h1>
+ return (
+  <div className="game-screen">
 
-  <p>
-    Puzzle {currentPuzzle + 1} / {puzzles.length}
-  </p>
+    <div className="scanlines"></div>
+    <div className="scanline"></div>
 
-  <PuzzleBoard
-    puzzle={puzzles[currentPuzzle]}
-    onSolved={nextPuzzle}
-     onPrevious={previousPuzzle}
-     onNext={nextPuzzle}
-  />
+    <div className="status-bar">
 
-  
+      <span className="status-online">
+        STATUS: ONLINE
+      </span>
+
+      <span>
+        PUZZLE {currentPuzzle + 1}/{puzzles.length}
+      </span>
+
+    </div>
+
+    <PuzzleBoard
+      puzzle={puzzles[currentPuzzle]}
+      onSolved={nextPuzzle}
+      onPrevious={previousPuzzle}
+      onNext={nextPuzzle}
+    />
+
   </div>
-</>
-  );
+);
 }
 
 export default App;
