@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "Retro";
+  src: url("./assets/fonts/PIXY.ttf");
+}
+
+body {
+  font-family: "Retro", monospace;
+}
