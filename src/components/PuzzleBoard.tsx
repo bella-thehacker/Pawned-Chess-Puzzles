@@ -142,14 +142,7 @@ type PuzzleBoardProps = {
    onNext: () => void;
 };
 
-type PieceRenderObject = Record<
-  string,
-  (props?: {
-    fill?: string;
-    square?: string;
-    svgStyle?: React.CSSProperties;
-  }) => React.JSX.Element
->;
+
 
 
 
@@ -166,7 +159,7 @@ export default function PuzzleBoard({
   const [solved, setSolved] = useState(false);
   const [moves, setMoves] = useState(0);
   const [showWrongMove, setShowWrongMove] = useState(false);
-  
+
   useEffect(() => {
   const newGame = new Chess(puzzle.fen);
 
